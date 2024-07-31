@@ -1,8 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import WithHeader from "../Layout/WithHeader";
 import TypingEffect from "../Hooks/TypingEffect";
 import Carousel from "../Components/Carousel";
 import ContactCard from "../Components/ContactCard";
+
+interface ProjectCardProps {
+  name: string;
+  description: string;
+  language: string;
+  html_url: string;
+}
 
 const Home = () => {
   const [activeSection, setActiveSection] = useState("home");
@@ -22,9 +29,9 @@ const Home = () => {
           <path
             fill="none"
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
             d="M29 9v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9m26 0a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2m26 0l-11.862 8.212a2 2 0 0 1-2.276 0L3 9"
           />
         </svg>
@@ -41,9 +48,9 @@ const Home = () => {
         >
           <path
             fill="currentColor"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M12.91 12.909c.326-.327.582-.72.749-1.151c.16-.414.27-.886.302-1.578c.032-.693.04-.915.04-2.68c0-1.765-.008-1.987-.04-2.68c-.032-.692-.142-1.164-.302-1.578a3.185 3.185 0 0 0-.75-1.151a3.187 3.187 0 0 0-1.151-.75c-.414-.16-.886-.27-1.578-.302C9.487 1.007 9.265 1 7.5 1c-1.765 0-1.987.007-2.68.04c-.692.03-1.164.14-1.578.301a3.2 3.2 0 0 0-1.151.75a3.2 3.2 0 0 0-.75 1.151c-.16.414-.27.886-.302 1.578C1.007 5.513 1 5.735 1 7.5c0 1.765.007 1.987.04 2.68c.03.692.14 1.164.301 1.578c.164.434.42.826.75 1.151c.325.33.718.586 1.151.75c.414.16.886.27 1.578.302c.693.031.915.039 2.68.039c1.765 0 1.987-.008 2.68-.04c.692-.03 1.164-.14 1.578-.301a3.323 3.323 0 0 0 1.151-.75ZM2 6.735v1.53c-.002.821-.002 1.034.02 1.5c.026.586.058 1.016.156 1.34c.094.312.199.63.543 1.012c.344.383.675.556 1.097.684c.423.127.954.154 1.415.175c.522.024.73.024 1.826.024H8.24c.842.001 1.054.002 1.526-.02c.585-.027 1.015-.059 1.34-.156c.311-.094.629-.2 1.011-.543c.383-.344.556-.676.684-1.098c.127-.422.155-.953.176-1.414C13 9.247 13 9.04 13 7.947v-.89c0-1.096 0-1.303-.023-1.826c-.021-.461-.049-.992-.176-1.414c-.127-.423-.3-.754-.684-1.098c-.383-.344-.7-.449-1.011-.543c-.325-.097-.755-.13-1.34-.156A27.29 27.29 0 0 0 8.24 2H7.057c-1.096 0-1.304 0-1.826.023c-.461.021-.992.049-1.415.176c-.422.128-.753.301-1.097.684c-.344.383-.45.7-.543 1.012c-.098.324-.13.754-.156 1.34c-.022.466-.022.679-.02 1.5ZM7.5 5.25a2.25 2.25 0 1 0 0 4.5a2.25 2.25 0 0 0 0-4.5ZM4.25 7.5a3.25 3.25 0 1 1 6.5 0a3.25 3.25 0 0 1-6.5 0Zm6.72-2.72a.75.75 0 1 0 0-1.5a.75.75 0 0 0 0 1.5Z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           />
         </svg>
       ),
@@ -81,20 +88,42 @@ const Home = () => {
       ),
     },
   ];
+  const [repo, setRepo] = useState<ProjectCardProps[]>([]);
 
-  async function getGithubProfilePicture() {
+  async function fetchRepos() {
     let response;
     try {
-      response = await fetch(`https://api.github.com/users/zulkou`);
+      response = await fetch(`https://api.github.com/users/zulkou/repos`);
+      console.log("fetch api requested")
     } catch (error) {
       console.log("error");
     }
 
     if (response?.ok) {
       const data = await response.json();
-      setSearchResult(data);
+      setRepo(data);
+      console.log("fetch api called")
     } else {
-      setSearchResult({ avatar_url: "../public/images/profile-icon-null.png" });
+      console.log(`error code: ${response?.status}`);
+    }
+  }
+
+  async function getGithubProfilePicture() {
+    let response;
+    try {
+      response = await fetch(`https://api.github.com/users/zulkou`);
+      console.log("photo api requested")
+    } catch (error) {
+      setSearchResult({ avatar_url: "/public/profile-icon-null.png" })
+      console.log("error");
+    }
+
+    if (response?.ok) {
+      const data = await response.json();
+      setSearchResult(data);
+      console.log("photo api called")
+    } else {
+      setSearchResult({ avatar_url: "/public/profile-icon-null.png" });
       console.log(`error code: ${response?.status}`);
     }
   }
@@ -118,6 +147,7 @@ const Home = () => {
 
   useEffect(() => {
     getGithubProfilePicture();
+    fetchRepos();
     window.addEventListener("scroll", listenScrollEvent);
 
     return () => {
@@ -184,7 +214,7 @@ const Home = () => {
             <img
               src={searchResult?.avatar_url}
               alt="Fahmi"
-              className="w-40 h-40 rounded-full mx-10 my-5"
+              className="w-40 h-40 rounded-full mx-10 my-5 bg-gray-300"
             />
             <p>
               Hi there! I'm Fahmi, a Front-End Developer based in Indonesia. I
@@ -204,7 +234,7 @@ const Home = () => {
           id="project"
         >
           <h1 className="text-3xl font-bold mb-3">My Projects</h1>
-          <Carousel />
+          <Carousel repo={repo} />
         </section>
         {/* Contact */}
         <section

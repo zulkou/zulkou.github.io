@@ -10,26 +10,9 @@ interface ProjectCardProps {
   html_url: string;
 }
 
-const Carousel = () => {
+const Carousel = ( { repo }: { repo: ProjectCardProps[] }) => {
   const [index, setIndex] = useState(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [repo, setRepo] = useState<ProjectCardProps[]>([]);
-
-  async function fetchRepos() {
-    let response;
-    try {
-      response = await fetch(`https://api.github.com/users/zulkou/repos`);
-    } catch (error) {
-      console.log("error");
-    }
-
-    if (response?.ok) {
-      const data = await response.json();
-      setRepo(data);
-    } else {
-      console.log(`error code: ${response?.status}`);
-    }
-  }
 
   function resetTimeout() {
     if (timeoutRef.current) {
@@ -38,7 +21,6 @@ const Carousel = () => {
   }
 
   useEffect(() => {
-    fetchRepos();
     resetTimeout();
     timeoutRef.current = setTimeout(
       () =>
