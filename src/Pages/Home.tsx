@@ -163,26 +163,26 @@ const Home = () => {
           className="flex flex-col justify-between h-[calc(100vh-66px)] py-10"
           id="hero"
         >
-          <div className="m-10 mt-36 text-7xl font-bold text-center">
+          <div className="m-10 my-28 sm:mt-36 text-6xl sm:text-7xl font-bold text-center">
             I Build This Website For {""}
             <div className="text-cyan-500 dark:text-cyan-300 text-shadow">
               <TypingEffect />
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col mx-5">
             <div>
-              <h1 className="font-bold text-3xl">
+              <h1 className="font-bold text-2xl sm:text-3xl">
                 Selamat Datang! I'm Fahmi{" "}
                 <span role="img" className="wave had">
                   👋
                 </span>
               </h1>
-              <div className="text-gray-600 dark:text-gray-400 mt-5 text-lg">
+              <div className="text-gray-600 dark:text-gray-400 mt-5 text-base sm:text-lg">
                 I am a front-end engineer, aspired to be a full stack, and a
                 little bit of expertise in machine learning.
               </div>
             </div>
-            <a href="#about" className="flex flex-col items-center self-center mt-36 transition-all ease-in-out hover:translate-y-1">
+            <a href="#about" className="flex flex-col items-center self-center mt-40 transition-all ease-in-out hover:translate-y-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -206,17 +206,17 @@ const Home = () => {
         </section>
         {/* About */}
         <section
-          className="flex flex-col gap-3 items-center pt-20 h-[50vh]"
+          className="flex flex-col gap-3 items-center pt-20 sm:h-[50vh] mx-5"
           id="about"
         >
           <h1 className="text-3xl font-bold">About Me</h1>
-          <div className="flex flex-row gap-5 items-center py-3">
+          <div className="flex flex-col sm:flex-row gap-5 items-center py-3">
             <img
               src={searchResult?.avatar_url}
               alt="Fahmi"
-              className="w-40 h-40 rounded-full mx-10 my-5 bg-gray-300"
+              className="w-40 h-40 rounded-full sm:mx-10 my-5 bg-gray-300"
             />
-            <p>
+            <p className="text-center sm:text-left">
               Hi there! I'm Fahmi, a Front-End Developer based in Indonesia. I
               have a passion for web development and love to create websites
               that are accessible, responsive, and performant. I have experience
@@ -230,7 +230,7 @@ const Home = () => {
         </section>
         {/* Project */}
         <section
-          className="flex flex-col items-center pt-20 h-[50vh]"
+          className="flex flex-col items-center pt-20 sm:h-[50vh]"
           id="project"
         >
           <h1 className="text-3xl font-bold mb-3">My Projects</h1>
@@ -238,11 +238,11 @@ const Home = () => {
         </section>
         {/* Contact */}
         <section
-          className="flex flex-col items-center pt-20 h-[50vh]"
+          className="flex flex-col items-center pt-20 sm:h-[50vh]"  
           id="contact"
         >
-          <h1 className="text-3xl font-bold mb-16">Find Me At</h1>
-          <div className="container flex flex-row justify-evenly items-center">
+          <h1 className="text-3xl font-bold mb-12 sm:mb-16">Find Me At</h1>
+          <div className="container grid grid-cols-2 gap-10 w-auto sm:flex sm:flex-row sm:justify-evenly sm:items-center">
             {contacts.map((contact, idx) => (
               <ContactCard
                 key={idx}
