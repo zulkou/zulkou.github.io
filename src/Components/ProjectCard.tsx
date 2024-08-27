@@ -23,7 +23,7 @@ const ProjectCard = ({
         >
           {name}
         </div>
-        <p className="description">
+        <p className="description text-wrap">
           {description === null ? "-" : description}
         </p>
         <p className="text-gray-500 dark:text-gray-500">

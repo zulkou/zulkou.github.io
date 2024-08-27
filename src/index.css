@@ -13,6 +13,15 @@ html {
   max-width: 750px;
 }
 
+@media screen and (max-width: 800px) {
+  .slideshow {
+    margin: 0 auto;
+    overflow: hidden;
+    max-width: 500px;
+  }
+}
+
+
 .slideshowSlider {
   white-space: nowrap;
   transition: ease 1000ms;
